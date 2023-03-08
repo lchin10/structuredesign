@@ -1,0 +1,39 @@
+<!DOCTYPE html >
+<html lang="en">
+<link rel="stylesheet" href="design_styles.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Concrete Structure Design</title>
+    <script src="design_script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div>Concrete Structure Design</div>
+        
+    <div class="main_button">
+        <img class="truss_main" src="truss.png">
+        <div></div>
+        <button onclick="scrollToSection1()">START</button>
+    </div>
+    <div style="padding-bottom: 200px;"></div>
+    <section id="section1">
+        <h2 class="quiz-question">Location of the beam:</h2>
+        <ul data-quiz-question="1">
+            <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="a">Inland</li>
+            <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="b">Coastal</li>
+        </ul>
+    </section>
+    <div style="padding-bottom: 430px;"></div>
+    <section id="section2">
+        <h2 class="quiz-question">Purpose of the beam:</h2>
+        <ul data-quiz-question="2">
+            <li class="quiz-answer" data-quiz-answer="a">Residential</li>
+            <li class="quiz-answer" data-quiz-answer="b">Office</li>
+            <li class="quiz-answer" data-quiz-answer="c">Shopping Area</li>
+        </ul>
+    </section>
+    <div style="padding-bottom: 500px;"></div>
+    <div></div>
+</body>
+
+</html>
