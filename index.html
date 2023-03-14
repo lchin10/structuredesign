@@ -40,25 +40,28 @@
     <section id="section3">
         <div class="container">
             <div class="column" style="padding-bottom: 50px;">
+                <div><label for="number-slider">Span:</label>
+                    <a style="background-color: white">
+                        <input type="range" id="number-slider" min="0" max="30" value="15">
+                        <span id="selected-number">15</span><span> m</span>
+                    </a></div>
                 <div><label>Cross-Secion:</label></div>
                 <div style="padding-left:50px;"><label for="number-slider">Width:</label>
                     <a style="background-color: white"><span id="width">0.3</span><span> m</span></a>
                 </div>
-                <div style="padding-left:50px;"><label for="number-slider">Thickness:</label>
+                <div style="padding-left:50px; padding-bottom: 50px;"><label for="number-slider">Thickness:</label>
                     <a style="background-color: white"><span id="thickness">0.4</span><span> m</span></a>
                 </div>
-                <div style="padding-bottom: 50px;"><label for="number-slider">Select a number:</label>
-                <a style="background-color: white">
-                    <input type="range" id="number-slider" min="0" max="100" value="50">
-                    <span id="selected-number">50</span>
-                </a></div>
+
                 <div><label for="number-slider">Concrete Density:</label>
                     <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
                 </div>
             </div>
             <div class="column" style="padding-bottom: 50px;">
                 <div><label>Dead Load: </label></div>
-                <div style="padding-bottom: 100px;"><label>Live Load: </label></div>
+                <div><label>Live Load: </label></div>
+                <div style="padding-left: 50px;"><label>Strength: </label></div>
+                <div style="padding-left: 50px; padding-bottom: 100px;"><label>Serviceability: </label></div>
                 <div><label>Supports: </label></div>
                 <div><label>Bending Moment Diagram: </label></div>
                 <div><label>Sheer Force Diagram: </label></div>
