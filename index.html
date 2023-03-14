@@ -6,33 +6,68 @@
     <title>Concrete Structure Design</title>
     <script src="design_script.js" defer></script>
 </head>
+<header>
+    <div>Concrete Structure Design</div>
+</header>
 <body>
-    <header>
-        <div>Concrete Structure Design</div>
-        
-    <div class="main_button">
-        <img class="truss_main" src="truss.png">
-        <div></div>
-        <button onclick="scrollToSection1()">START</button>
+    <div style="text-align:center">
+        <div class="main_button">
+            <img class="truss_main" src="truss.png">
+            <div style="padding-top: 20px;"><button onclick="scrollToSection1()" class="expanding-button">START</button></div>
+        </div>
+        <div style="padding-bottom: 200px;"></div>
+        <section id="section1">
+            <h2 class="quiz-question">Location of the beam:</h2>
+            <ul data-quiz-question="1">
+                <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="a">Inland</li>
+                <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="b">Coastal</li>
+            </ul>
+        </section>
+        <div style="padding-bottom: 430px;"></div>
+        <section id="section2">
+            <h2 class="quiz-question">Purpose of the beam:</h2>
+            <ul data-quiz-question="2">
+                <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="a">Residential</li>
+                <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="b">Office</li>
+                <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="c">Shopping Area</li>
+            </ul>
+        </section>
     </div>
-    <div style="padding-bottom: 200px;"></div>
-    <section id="section1">
-        <h2 class="quiz-question">Location of the beam:</h2>
-        <ul data-quiz-question="1">
-            <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="a">Inland</li>
-            <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="b">Coastal</li>
-        </ul>
-    </section>
-    <div style="padding-bottom: 430px;"></div>
-    <section id="section2">
-        <h2 class="quiz-question">Purpose of the beam:</h2>
-        <ul data-quiz-question="2">
-            <li class="quiz-answer" data-quiz-answer="a">Residential</li>
-            <li class="quiz-answer" data-quiz-answer="b">Office</li>
-            <li class="quiz-answer" data-quiz-answer="c">Shopping Area</li>
-        </ul>
+    <div style="padding-bottom: 500px;"></div>
+
+
+    
+    <section id="section3">
+        <div class="container">
+            <div class="column" style="padding-bottom: 50px;">
+                <div><label>Cross-Secion:</label></div>
+                <div style="padding-left:50px;"><label for="number-slider">Width:</label>
+                    <a style="background-color: white"><span id="width">0.3</span><span> m</span></a>
+                </div>
+                <div style="padding-left:50px;"><label for="number-slider">Thickness:</label>
+                    <a style="background-color: white"><span id="thickness">0.4</span><span> m</span></a>
+                </div>
+                <div style="padding-bottom: 50px;"><label for="number-slider">Select a number:</label>
+                <a style="background-color: white">
+                    <input type="range" id="number-slider" min="0" max="100" value="50">
+                    <span id="selected-number">50</span>
+                </a></div>
+                <div><label for="number-slider">Concrete Density:</label>
+                    <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
+                </div>
+            </div>
+            <div class="column" style="padding-bottom: 50px;">
+                <div><label>Dead Load: </label></div>
+                <div style="padding-bottom: 100px;"><label>Live Load: </label></div>
+                <div><label>Supports: </label></div>
+                <div><label>Bending Moment Diagram: </label></div>
+                <div><label>Sheer Force Diagram: </label></div>
+            </div>
+        </div>
     </section>
     <div style="padding-bottom: 500px;"></div>
+
+
     <div></div>
 </body>
 

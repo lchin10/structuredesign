@@ -3,6 +3,9 @@ body{
     /* background-color: #e4e4dcdc; */
     background-color: lightblue;
     overflow: auto;
+    margin-top: 50px;
+    text-align: left;
+    font-size: 50px;
 }
 
 header {
@@ -20,9 +23,21 @@ header {
     height: auto;
 }
 
-button {
-    font-size: 40px;
-    margin: 40px 2px;
+.expanding-button {
+  font-size: 30px;
+  padding: 12px 24px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  animation: expand-shrink 1s ease-in-out infinite;
+}
+
+@keyframes expand-shrink {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.2);}
+  100% {transform: scale(1);}
 }
 
 ul {
@@ -36,69 +51,25 @@ ul {
     display:block;
     padding:30px 0 10px 0;
     margin:0;
-  }
-  .quiz-answer {
+}
+.quiz-answer {
     margin:0;
     padding:10px;
     background:#f7f7f7;
     margin-bottom:5px;
     cursor: pointer;
-    
-    /* &:hover {
-      background:#eee;
-    }
-    
-    &:before {
-      content:"";
-      display:inline-block;
-      width:15px;
-      height:15px;
-      border:1px solid #ccc;
-      background:#fff;
-      vertical-align:middle;
-      margin-right:10px;
-    } */
-    
-    /* &.active {
-      &:before {
-        background-color:#333;
-        border-color:#333;
-      }
-    }
-    &.correct {
-      &:before {
-        background-color:green;
-        border-color:green;
-      }
-    }
-    &.incorrect {
-      &:before {
-        background-color:red;
-        border-color:red;
-      }
-    }
-    &.active.correct {
-      &:before {
-        outline: 2px solid green;
-        outline-offset: 2px;
-      }
-    } */
-  }
-  /* .quiz-result {
-    max-width:960px;
-    margin:0 auto;
-    font-weight:bold;
-    text-align:center;
-    color: #fff;
-    padding:20px;
-    
-    &.good {
-      background: green;
-    }
-    &.mid {
-      background: orange;
-    }
-    &.bad {
-      background: red;
-    }
-  } */
+}
+
+#number-slider {
+  border: 3px solid black;
+  background-color: red;
+}
+
+.container {
+  display: flex; /* displays the container as a flex container */
+}
+
+.column {
+  flex-basis: 50%; /* sets the width of each column to 50% */
+  padding: 20px; /* adds some padding to each column */
+}
