@@ -18,7 +18,7 @@
         <div style="padding-bottom: 180px;"></div>
         <section id="section1">
             <h2 class="quiz-question">Location of the beam:</h2>
-            <ul data-quiz-question="1">
+            <ul data-quiz-question="1" id="locationques">
                 <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="a">Inland</li>
                 <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="b">Coastal</li>
             </ul>
@@ -26,7 +26,7 @@
         <div style="padding-bottom: 430px;"></div>
         <section id="section2">
             <h2 class="quiz-question">Purpose of the beam:</h2>
-            <ul data-quiz-question="2">
+            <ul data-quiz-question="2" id="purposeques">
                 <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="a">Residential</li>
                 <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="b">Office</li>
                 <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="c">Shopping Area</li>
@@ -43,26 +43,32 @@
             <div class="column">
                 <div><label for="number-slider">Span:</label>
                     <a style="background-color: white">
-                        <input type="range" id="number-slider" min="0" max="30" value="15">
-                        <span id="selected-number">15</span><span> m</span>
+                        <input type="range" id="span-slider" min="0" max="30" value="15">
+                        <span id="spanNumber">15</span><span> m</span>
                     </a></div>
-                <div><label>Cross-Secion:</label></div>
-                <div style="padding-left:50px;"><label for="number-slider">Width:</label>
-                    <a style="background-color: white"><span id="width">0.3</span><span> m</span></a>
-                </div>
-                <div style="padding-left:50px; padding-bottom: 50px;"><label for="number-slider">Thickness:</label>
-                    <a style="background-color: white"><span id="thickness">0.4</span><span> m</span></a>
-                </div>
+                <div><label for="number-slider">Width:</label>
+                    <a style="background-color: white">
+                        <input type="range" id="width-slider" min="0" max="5" value="0.3" step="0.1">
+                        <span id="widthNumber">0.3</span><span> m</span>
+                    </a></div>
+                <div style="padding-bottom: 50px;"><label for="number-slider">Thickness:</label>
+                    <a style="background-color: white">
+                        <input type="range" id="thickness-slider" min="0" max="5" value="0.4" step="0.1">
+                        <span id="thicknessNumber">0.4</span><span> m</span>
+                    </a></div>
 
                 <div><label for="number-slider">Concrete Density:</label>
                     <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
                 </div>
             </div>
             <div class="column">
-                <div><label>Dead Load: </label></div>
-                <div><label>Live Load: </label></div>
-                <div style="padding-left: 50px;"><label>Strength: </label></div>
-                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Serviceability: </label></div>
+                <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
+                <div><label>Live Load (Q): </label><a style="background-color: white"><span id="live-load"></span><span> kN/m</span></a></div>
+                <div><label>Load Combination: </label></div>
+                <div style="padding-left: 50px;"><label>Strength: </label><a style="background-color: white"><span id="combo-strength"></span><span> kN/m</span></a></div>
+                <div style="padding-left: 50px;"><label>Serviceability: </label></div>
+                <div style="padding-left: 100px;"><label>Short Term: </label><a style="background-color: white"><span id="combo-short"></span><span> kN/m</span></a></div>
+                <div style="padding-left: 100px; padding-bottom: 50px;"><label>Long Term: </label><a style="background-color: white"><span id="combo-long"></span><span> kN/m</span></a></div>
                 <div><label>Supports: </label></div>
                 <div><label>Bending Moment Diagram: </label></div>
                 <div><label>Sheer Force Diagram: </label></div>
