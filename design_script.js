@@ -77,7 +77,7 @@ function findLoad(purpose, span, width, thickness){
         udl = 4.0;
         cl = 3.7;
     }
-    const lload = udl * span * width * thickness / 1000; // Q, live load
+    const lload = udl * span * width * thickness; // Q, live load
     const dload = conreteDensity * width * thickness; // G, dead load
     liveLoad.innerHTML = lload.toPrecision(4);
     deadLoad.innerHTML = dload.toPrecision(4);
