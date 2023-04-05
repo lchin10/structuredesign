@@ -1,3 +1,8 @@
+// import React from 'react';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+// import ReactDOM from 'react-dom';
+// import BendingMomentDiagram from './BendingMomentDiagram';
+
 const sec1 = document.getElementById('section1');
 const sec2 = document.getElementById('section2');
 const sec3 = document.getElementById('section3');
@@ -14,6 +19,7 @@ const purposeQues = document.getElementById('purposeques');
 const comboStrength = document.getElementById('combo-strength');
 const comboShort = document.getElementById('combo-short');
 const comboLong = document.getElementById('combo-long');
+const rebarDiam = document.getElementById('rebarDiam');
 
 
 let purposeItem = 0;
@@ -37,17 +43,17 @@ function scrollToSection3() {
 
 spanSlider.addEventListener("input", function() {
     spanNumber.innerHTML = spanSlider.value;
-    findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
+    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
 });
 
 widthSlider.addEventListener("input", function() {
     widthNumber.innerHTML = widthSlider.value;
-    findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
+    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
 });
 
 thicknessSlider.addEventListener("input", function() {
     thicknessNumber.innerHTML = thicknessSlider.value;
-    findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
+    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
 });
 
 locationQues.addEventListener('click', function(event) {
@@ -58,8 +64,13 @@ locationQues.addEventListener('click', function(event) {
 purposeQues.addEventListener('click', function(event) {
     purposeItem = Array.from(this.children).indexOf(event.target);
     console.log('Clicked purpose:', purposeItem); //residential,office,shopping area
-    findLoad(purposeItem,0.3,0.4,spanNumber.innerHTML);
+    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
 });
+
+rebarDiam.addEventListener('change', (event) => {
+    const selectedDiam = rebarDiam.value;
+    console.log(selectedDiam);
+  });
 
 function findLoad(purpose, span, width, thickness){
     const conreteDensity = 25;
@@ -85,3 +96,31 @@ function findLoad(purpose, span, width, thickness){
     comboShort.innerHTML = (dload + shortf*lload).toPrecision(4);
     comboLong.innerHTML = (dload + longf*lload).toPrecision(4);
 }
+
+// ReactDOM.render(
+//     <BendingMomentDiagram />,
+//     document.getElementById('bmd-container')
+// );
+
+// const data = [
+//     { distance: 0, bendingMoment: 0 },
+//     { distance: 1, bendingMoment: 10 },
+//     { distance: 2, bendingMoment: 20 },
+//     { distance: 3, bendingMoment: 15 },
+//     { distance: 4, bendingMoment: 5 },
+// ];
+  
+// const BendingMomentDiagram = () => {
+//     return (
+//         <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+//             <XAxis dataKey="distance" label={{ value: 'Distance (m)', position: 'insideBottomRight', offset: 0 }} />
+//             <YAxis label={{ value: 'Bending Moment (kNm)', angle: -90, position: 'insideLeft', offset: 10 }} />
+//             <CartesianGrid strokeDasharray="3 3" />
+//             <Tooltip />
+//             <Legend />
+//             <Line type="monotone" dataKey="bendingMoment" stroke="blue" />
+//         </LineChart>
+//     );
+// }
+  
+// export default BendingMomentDiagram;
