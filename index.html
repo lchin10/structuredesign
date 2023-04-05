@@ -35,9 +35,53 @@
     </div>
     <div style="padding-bottom: 500px;"></div>
 
+    <section id="section3">
+        <div style="text-align:center;"><h2>Results:</h2></div>
+        <div class="container">
+            <div class="column">
+                <div><label for="number-slider">Span:</label>
+                    <a style="background-color: white">
+                        <input type="range" id="span-slider" min="0" max="30" value="15">
+                        <span id="spanNumber">15</span><span> m</span>
+                    </a></div>
+                <label>Cross-Section</label>
+                <div style="padding-left: 50px;"><label>Width:</label>
+                    <a style="background-color: white"><span id="widthNumber">0.3</span><span> m</span></a>
+                </div>
+                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Depth:</label>
+                    <a style="background-color: white"><span id="thicknessNumber">0.4</span><span> m</span></a>
+                </div>
+
+                <div><label for="choices">Diameter:</label>
+                    <select id="rebarDiam" name="rebarDiam" style="font-size: 1.2rem; padding: 0.5rem;">
+                        <option value="16mm">16 mm</option>
+                        <option value="18mm">18 mm</option>
+                        <option value="20mm">20 mm</option>
+                    </select>
+                </div>
+                <div><label for="number-slider">Concrete Density:</label>
+                    <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
+                </div>
+            </div>
+            <div class="column">
+                <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
+                <div><label>Live Load (Q): </label><a style="background-color: white"><span id="live-load"></span><span> kN/m</span></a></div>
+                <div><label>Load Combination: </label></div>
+                <div style="padding-left: 50px;"><label>Strength: </label><a style="background-color: white"><span id="combo-strength"></span><span> kN/m</span></a></div>
+                <div style="padding-left: 50px;"><label>Serviceability: </label></div>
+                <div style="padding-left: 100px;"><label>Short Term: </label><a style="background-color: white"><span id="combo-short"></span><span> kN/m</span></a></div>
+                <div style="padding-left: 100px; padding-bottom: 50px;"><label>Long Term: </label><a style="background-color: white"><span id="combo-long"></span><span> kN/m</span></a></div>
+                <div><label>Supports: </label></div>
+                <div><label>Bending Moment Diagram: </label></div>
+                <div><label>Sheer Force Diagram: </label></div>
+                <div id="bmd-container"></div>
+            </div>
+        </div>  
+    </section>
+    <div style="padding-bottom: 500px;"></div>
 
     
-    <section id="section3">
+    <section id="section4">
         <div style="text-align:center;"><h2>Results:</h2></div>
         <div class="container">
             <div class="column">
@@ -72,6 +116,7 @@
                 <div><label>Supports: </label></div>
                 <div><label>Bending Moment Diagram: </label></div>
                 <div><label>Sheer Force Diagram: </label></div>
+                <div id="bmd-container"></div>
             </div>
         </div>
     </section>
