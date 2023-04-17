@@ -97,30 +97,49 @@ function findLoad(purpose, span, width, thickness){
     comboLong.innerHTML = (dload + longf*lload).toPrecision(4);
 }
 
-// ReactDOM.render(
-//     <BendingMomentDiagram />,
-//     document.getElementById('bmd-container')
-// );
 
-// const data = [
-//     { distance: 0, bendingMoment: 0 },
-//     { distance: 1, bendingMoment: 10 },
-//     { distance: 2, bendingMoment: 20 },
-//     { distance: 3, bendingMoment: 15 },
-//     { distance: 4, bendingMoment: 5 },
-// ];
-  
-// const BendingMomentDiagram = () => {
-//     return (
-//         <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-//             <XAxis dataKey="distance" label={{ value: 'Distance (m)', position: 'insideBottomRight', offset: 0 }} />
-//             <YAxis label={{ value: 'Bending Moment (kNm)', angle: -90, position: 'insideLeft', offset: 10 }} />
-//             <CartesianGrid strokeDasharray="3 3" />
-//             <Tooltip />
-//             <Legend />
-//             <Line type="monotone" dataKey="bendingMoment" stroke="blue" />
-//         </LineChart>
-//     );
-// }
-  
-// export default BendingMomentDiagram;
+
+/*
+write html, css, and js code based on the following:
+
+the user chooses location of a beam: inland or coastal
+the user can choose the span (L) of the beam: this will be a slider that defaults to 15m
+for the cross-section, the depth (D) is defined as L/16, and width (W) is defined as D/1.5
+for the rebar diameter, the user can choose between 16mm, 18mm, and 20mm: this will be a dropdown that defaults to 16mm
+
+concrete properties: 
+user can choose characteristic compressive strength (fc) based on the table below; however, the minimum choice will be based on the beam location chosen earlier:
+    inland: fc >= 25MPa, coastal: fc >= 32MPa; this will be a dropdown defaulting to the minimum value
+characteristic flexural tensile strength (fct.f) = 0.6 * sqrt(fc)
+elastic modulus (Ec) will be based on fc according to this table:
+fc (MPa): 20 25 32 40 50 65 80 100 120
+Ec (MPa): 24000 26700 30100 32800 34800 37400 39600 42200 44400
+
+steel properties:
+Characteristic yield strength (fsy) = 500 MPa
+Elastic modulus (Es) = 200 * 10^3 MPa
+
+concrete cover (conC): this will be based on both beam location and fc:
+    inland: 30mm (25MPa), 25 (32MPa), 20 (>=40MPa)
+    coastal: 40mm (32MPa), 30 (40MPa), 25 (>=50MPa)
+stirrup (stirrup): let the user choose between 10mm or 12mm: dropdown defaulting to 10mm
+effective depth (d) = D - conC - stirrup - (diameter/2)
+cross-sectional area (Ast) = (0.2 * (D/d)^2 * (fct.f/fsy)) * W * d
+
+**note that for D and W, the dimensions should be rounded up to the nearest 10mm
+
+these will be the variables shown; it will be shown in two columns
+column 1:
+    Span (L): slider for user selection (units: m)
+    Cross-section: depth (D) and width (W) (units: mm)
+    Rebar Diameter: dropdown for user selection (units: mm)
+    Stirrup: dropdown for user selection (units: mm)
+    Concrete Properties: fc and Ec, dropdown for fc for user selection
+    Steel Properties: fsy and Es
+
+column 2:
+    Effective Depth (d) (units: mm)
+    Concrete Cover (units: m)
+    Cross-Sectional Area of Longitudinal Tensile Reinforcement (Ast) (units: mm^2)
+
+*/
