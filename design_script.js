@@ -7,11 +7,9 @@ const sec1 = document.getElementById('section1');
 const sec2 = document.getElementById('section2');
 const sec3 = document.getElementById('section3');
 const spanSlider = document.getElementById("span-slider");
-const widthSlider = document.getElementById("width-slider");
-const thicknessSlider = document.getElementById("thickness-slider");
 const spanNumber = document.getElementById("spanNumber");
+const depthNumber = document.getElementById("depthNumber");
 const widthNumber = document.getElementById("widthNumber");
-const thicknessNumber = document.getElementById("thicknessNumber");
 const liveLoad = document.getElementById("live-load");
 const deadLoad = document.getElementById("dead-load");
 const locationQues = document.getElementById('locationques');
@@ -19,15 +17,29 @@ const purposeQues = document.getElementById('purposeques');
 const comboStrength = document.getElementById('combo-strength');
 const comboShort = document.getElementById('combo-short');
 const comboLong = document.getElementById('combo-long');
-const rebarDiam = document.getElementById('rebarDiam');
+const rebarDiameter = document.getElementById('rebar-diameter');
+const stirrup = document.getElementById('stirrup');
+const compressiveStrength = document.getElementById('compressive-strength');
+const elasticModulus = document.getElementById('elastic-modulus');
+const yieldStrength = document.getElementById('yield-strength');
+const elasticModulusSteel = document.getElementById('elastic-modulus-steel');
+const effectiveDepth = document.getElementById('effective-depth');
+const concreteCover = document.getElementById('concrete-cover');
+const crossSectionalArea = document.getElementById('cross-sectional-area');
+const rebars = document.getElementById('rebars');
 
-
+let locationItem = 1;
 let purposeItem = 0;
+let compressiveStrengthSelection = 32;
+let rebarValue = 16;
+let stirrupValue = 10;
 
 
 window.onbeforeunload = function () {
     window.scrollTo(0, 0);
 }
+
+window.onload= function(){ findAll(); }
 
 function scrollToSection1() {
     sec1.scrollIntoView({ behavior: "smooth" });
@@ -39,26 +51,32 @@ function scrollToSection2() {
 
 function scrollToSection3() {
     sec3.scrollIntoView({ behavior: "smooth" });
+    findAll();
 }
 
 spanSlider.addEventListener("input", function() {
     spanNumber.innerHTML = spanSlider.value;
     // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
+    findAll();
 });
 
-widthSlider.addEventListener("input", function() {
-    widthNumber.innerHTML = widthSlider.value;
-    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
-});
-
-thicknessSlider.addEventListener("input", function() {
-    thicknessNumber.innerHTML = thicknessSlider.value;
-    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
+compressiveStrength.addEventListener('change', () => {
+    if (locationItem == 1) {
+      compressiveStrength.options[0].disabled = true;
+    } else {
+      compressiveStrength.options[0].disabled = false;
+    }
+    console.log('Clicked location:', locationItem);
+    let compressiveStrengthSelectionTemp = compressiveStrength.options[compressiveStrength.selectedIndex];
+    compressiveStrengthSelection = compressiveStrengthSelectionTemp.value;
+    console.log('comp Strength selection:', compressiveStrengthSelection);
+    findAll();
 });
 
 locationQues.addEventListener('click', function(event) {
-  const locationItem = Array.from(this.children).indexOf(event.target);
+  locationItem = Array.from(this.children).indexOf(event.target);
   console.log('Clicked location:', locationItem);
+  findAll();
 });
 
 purposeQues.addEventListener('click', function(event) {
@@ -67,10 +85,17 @@ purposeQues.addEventListener('click', function(event) {
     // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
 });
 
-rebarDiam.addEventListener('change', (event) => {
-    const selectedDiam = rebarDiam.value;
-    console.log(selectedDiam);
-  });
+rebarDiameter.addEventListener('change', (event) => {
+    rebarValue = rebarDiameter.value;
+    console.log(rebarValue);
+    findAll();
+});
+
+stirrup.addEventListener('change', (event) => {
+    stirrupValue = stirrup.value;
+    console.log(stirrupValue);
+    findAll();
+});
 
 function findLoad(purpose, span, width, thickness){
     const conreteDensity = 25;
@@ -95,6 +120,75 @@ function findLoad(purpose, span, width, thickness){
     comboStrength.innerHTML = (1.2*dload + 1.5*lload).toPrecision(4);
     comboShort.innerHTML = (dload + shortf*lload).toPrecision(4);
     comboLong.innerHTML = (dload + longf*lload).toPrecision(4);
+}
+
+function findCrossSection(){
+    widthNumber.innerHTML = (spanNumber.innerHTML/16).toPrecision(5);
+    depthNumber.innerHTML = (widthNumber.innerHTML/1.5).toPrecision(5);
+}
+
+function setElasticModulus(){
+    if (compressiveStrengthSelection == 25){
+        elasticModulus.innerHTML = 26700;
+    } else if (compressiveStrengthSelection == 32){
+        elasticModulus.innerHTML = 30100;
+    } else if (compressiveStrengthSelection == 40){
+        elasticModulus.innerHTML = 32800;
+    } else if (compressiveStrengthSelection == 50){
+        elasticModulus.innerHTML = 34800;
+    } else if (compressiveStrengthSelection == 65){
+        elasticModulus.innerHTML = 37400;
+    } else if (compressiveStrengthSelection == 80){
+        elasticModulus.innerHTML = 39600;
+    } else if (compressiveStrengthSelection == 100){
+        elasticModulus.innerHTML = 42200;
+    } else if (compressiveStrengthSelection == 120){
+        elasticModulus.innerHTML = 44400;
+    }
+}
+
+function findOutputs(){
+    //variables
+    const fc = compressiveStrengthSelection;
+    const D = depthNumber.innerHTML;
+    let conC = concreteCover.innerHTML;
+    //stirrupValue, rebarValue
+    const fsy = yieldStrength.innerHTML;
+    const W = widthNumber.innerHTML
+
+    //concrete cover
+    if (locationItem == 0 && fc == 25){
+        conC = 30;
+    } else if (locationItem == 0 && fc == 32){
+        conC = 25;
+    } else if (locationItem == 0 && fc >= 40){
+        conC = 20;
+    } else if (fc == 32){
+        conC = 40;
+    } else if (fc == 40){
+        conC = 30;
+    } else if (fc >= 50){
+        conC = 25;
+    }
+    concreteCover.innerHTML = conC;
+
+    //depth
+    const eDepth = D - conC - stirrupValue - (rebarValue/2);
+    effectiveDepth.innerHTML = eDepth.toPrecision(6);
+
+    //cross-section area
+    const Ast = 0.2 * Math.pow((D/rebarValue),2) * (0.6*Math.sqrt(fc)/fsy) * W * eDepth;
+    crossSectionalArea.innerHTML = Ast.toPrecision(10);
+
+    //rebars
+    const nORebars = Ast/((Math.PI)/4*Math.pow(rebarValue,2));
+    rebars.innerHTML = Math.ceil(nORebars);
+}
+
+function findAll(){
+    findCrossSection();
+    setElasticModulus();
+    findOutputs();
 }
 
 

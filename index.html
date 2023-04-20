@@ -39,32 +39,78 @@
         <div style="text-align:center;"><h2>Results:</h2></div>
         <div class="container">
             <div class="column">
-                <div><label for="number-slider">Span:</label>
+                <div><label for="number-slider">Span (mm):</label>
                     <a style="background-color: white">
-                        <input type="range" id="span-slider" min="0" max="30" value="15">
-                        <span id="spanNumber">15</span><span> m</span>
+                        <input type="range" id="span-slider" min="1500" max="10000" value="7000">
+                        <span id="spanNumber">7000</span>
                     </a></div>
                 <label>Cross-Section</label>
-                <div style="padding-left: 50px;"><label>Width:</label>
-                    <a style="background-color: white"><span id="widthNumber">0.3</span><span> m</span></a>
+                <div style="padding-left: 50px;"><label>Depth (mm):</label>
+                    <a style="background-color: white"><span id="depthNumber">0.4</span></a>
                 </div>
-                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Depth:</label>
-                    <a style="background-color: white"><span id="thicknessNumber">0.4</span><span> m</span></a>
+                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Width (mm):</label>
+                    <a style="background-color: white"><span id="widthNumber">0.3</span></a>
                 </div>
 
-                <div><label for="choices">Diameter:</label>
-                    <select id="rebarDiam" name="rebarDiam" style="font-size: 1.2rem; padding: 0.5rem;">
-                        <option value="16mm">16 mm</option>
-                        <option value="18mm">18 mm</option>
-                        <option value="20mm">20 mm</option>
+                <div><label for="rebar-diameter">Rebar Diameter (mm):</label>
+                    <select id="rebar-diameter" name="rebar-diameter" style="font-size: 1.2rem; padding: 0.5rem;">
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
                     </select>
                 </div>
-                <div><label for="number-slider">Concrete Density:</label>
-                    <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
+
+                <div style="padding-bottom: 50px;"><label for="stirrup">Stirrup (mm):</label>
+                    <select id="stirrup" name="stirrup" style="font-size: 1.2rem; padding: 0.5rem;">
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                    </select>
                 </div>
+
+                <label>Concrete Properties</label>
+                <div style="padding-left: 50px;"><label>Characteristic Compressive Strength (fc) (mPa):</label>
+                    <select id="compressive-strength" name="compressive-strength" style="font-size: 1.2rem; padding: 0.5rem;">
+                        <option value="25" disabled>25</option>
+                        <option value="32" selected>32</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                        <option value="65">65</option>
+                        <option value="80">80</option>
+                        <option value="100">100</option>
+                        <option value="120">120</option>
+                    </select>
+                </div>
+                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Elastic Modulus (Ec) (mPa):</label>
+                    <a style="background-color: white"><span id="elastic-modulus">0</span></a>
+                </div>
+
+                <label>Steel Properties</label>
+                <div style="padding-left: 50px;"><label>Characteristic Yield Strength (fsy) (mPa):</label>
+                    <a style="background-color: white"><span id="yield-strength">500</span></a>
+                </div>
+                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Elastic Modulus (Es) (mPa):</label>
+                    <a style="background-color: white"><span id="elastic-modulus-steel">200000</span></a>
+                </div>
+
             </div>
             <div class="column">
-                <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
+                <div style="padding-bottom: 50px;"><label>Effective Depth (mm):</label>
+                    <a style="background-color: white"><span id="effective-depth">0.4</span></a>
+                </div>
+
+                <div style="padding-bottom: 50px;"><label>Concrete Cover (m):</label>
+                    <a style="background-color: white"><span id="concrete-cover">0.4</span></a>
+                </div>
+
+                <div style="padding-bottom: 50px;"><label>Cross-Sectional Area of Longitudinal Tensile Reinforcement (mm<sup>2</sup>):</label>
+                    <a style="background-color: white"><span id="cross-sectional-area">0.4</span></a>
+                </div>
+
+                <div style="padding-bottom: 50px;"><label>Number of Rebars:</label>
+                    <a style="background-color: white"><span id="rebars">0.4</span></a>
+                </div>
+
+                <!-- <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
                 <div><label>Live Load (Q): </label><a style="background-color: white"><span id="live-load"></span><span> kN/m</span></a></div>
                 <div><label>Load Combination: </label></div>
                 <div style="padding-left: 50px;"><label>Strength: </label><a style="background-color: white"><span id="combo-strength"></span><span> kN/m</span></a></div>
@@ -74,7 +120,7 @@
                 <div><label>Supports: </label></div>
                 <div><label>Bending Moment Diagram: </label></div>
                 <div><label>Sheer Force Diagram: </label></div>
-                <div id="bmd-container"></div>
+                <div id="bmd-container"></div> -->
             </div>
         </div>  
     </section>
