@@ -178,7 +178,7 @@ function findOutputs(){
 
     //cross-section area
     const Ast = 0.2 * Math.pow((D/rebarValue),2) * (0.6*Math.sqrt(fc)/fsy) * W * eDepth;
-    crossSectionalArea.innerHTML = Ast.toPrecision(10);
+    crossSectionalArea.innerHTML = Ast.toPrecision(7);
 
     //rebars
     const nORebars = Ast/((Math.PI)/4*Math.pow(rebarValue,2));
