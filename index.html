@@ -5,11 +5,19 @@
     <meta charset="UTF-8">
     <title>Concrete Structure Design</title>
     <script src="design_script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/nerdamer.core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Algebra.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Calculus.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@latest/Solve.js"></script>
 </head>
 <header>
     <h1>Concrete Structure Design</h1>
 </header>
 <body>
+    <div id="loading" class="loading">
+        <div class="loading-icon"></div>
+        <button id="cancel-btn" class="cancel-btn" onclick="cancelFunc()">Cancel</button>
+      </div>
     <div style="text-align:center">
         <div class="main_button">
             <img class="truss_main" src="truss.png">
@@ -35,14 +43,14 @@
     </div>
     <div style="padding-bottom: 500px;"></div>
 
-    <section id="section3">
+    <section id="section3" style="font-size: 40px;">
         <div style="text-align:center;"><h2>Results:</h2></div>
         <div class="container">
             <div class="column">
                 <div><label for="number-slider">Span (mm):</label>
                     <a style="background-color: white">
-                        <input type="range" id="span-slider" min="1500" max="10000" value="7000">
-                        <span id="spanNumber">7000</span>
+                        <input type="range" id="span-slider" min="1500" max="5000" value="3000">
+                        <span id="spanNumber">3000</span>
                     </a></div>
                 <label>Cross-Section</label>
                 <div style="padding-left: 50px;"><label>Depth (mm):</label>
@@ -52,11 +60,18 @@
                     <a style="background-color: white"><span id="widthNumber">0.3</span></a>
                 </div>
 
+                <div><label>Design Moment Load (M*):</label>
+                    <input type="number" value="3000000" step="100" id="design-load">
+                </div>
                 <div><label for="rebar-diameter">Rebar Diameter (mm):</label>
                     <select id="rebar-diameter" name="rebar-diameter" style="font-size: 1.2rem; padding: 0.5rem;">
                         <option value="16">16</option>
                         <option value="18">18</option>
-                        <option value="20">20</option>
+                        <option value="20">20</option> 
+                        <option value="20">22</option> 
+                        <option value="20">24</option> 
+                        <option value="20">26</option> 
+                        <option value="20">28</option> 
                     </select>
                 </div>
 
@@ -106,8 +121,21 @@
                     <a style="background-color: white"><span id="cross-sectional-area">0.4</span></a>
                 </div>
 
-                <div style="padding-bottom: 50px;"><label>Number of Rebars:</label>
+                <div><label>Number of Rebars:</label>
                     <a style="background-color: white"><span id="rebars">0.4</span></a>
+                </div>
+                <div style="padding-bottom: 50px; padding-left: 30px; color: red;"><a id="rebar-warning"></a></div>
+
+                <div><label>c:</label>
+                    <a style="background-color: white"><span id="c-value">0.4</span></a>
+                </div>
+
+                <div><label>&#632;:</label>
+                    <a style="background-color: white"><span id="phi-value">0.4</span></a>
+                </div>
+
+                <div><label>&#632;M<sub>uo</sub>:</label>
+                    <a style="background-color: white"><span id="Muo-value">0.4</span></a>
                 </div>
 
                 <!-- <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
@@ -125,138 +153,3 @@
         </div>  
     </section>
     <div style="padding-bottom: 500px;"></div>
-
-
-    <div class="container">
-        <div class="left-column">
-            <div class="form-group">
-                <label for="beam-location">Beam Location:</label>
-                <select id="beam-location">
-                    <option value="inland">Inland</option>
-                    <option value="coastal">Coastal</option>
-                </select>
-            </div>
-      
-            <div class="form-group">
-                <label for="beam-span">Beam Span (m):</label>
-                <input type="range" id="beam-span" min="10" max="30" value="15">
-            </div>
-      
-            <div class="form-group">
-                <label for="rebar-diameter">Rebar Diameter (mm):</label>
-                <select id="rebar-diameter">
-                    <option value="16">16</option>
-                    <option value="18">18</option>
-                    <option value="20">20</option>
-                </select>
-            </div>
-      
-            <div class="form-group">
-                <label for="stirrup">Stirrup (mm):</label>
-                <select id="stirrup">
-                    <option value="10">10</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-      
-            <div class="form-group">
-                <label for="compressive-strength">Compressive Strength (MPa):</label>
-                <select id="compressive-strength">
-                    <option value="25">25</option>
-                    <option value="32">32</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                    <option value="65">65</option>
-                    <option value="80">80</option>
-                    <option value="100">100</option>
-                    <option value="120">120</option>
-                </select>
-            </div>
-      
-            <div class="form-group">
-                <label for="depth">Depth (mm):</label>
-                <input type="text" id="depth" disabled>
-            </div>
-        
-            <div class="form-group">
-                <label for="width">Width (mm):</label>
-                <input type="text" id="width" disabled>
-            </div>
-      
-            <div class="form-group">
-                <label for="elastic-modulus">Elastic Modulus (MPa):</label>
-                <input type="text" id="elastic-modulus" disabled>
-            </div>
-      
-            <div class="form-group">
-                <label for="concrete-cover">Concrete Cover (mm):</label>
-                <input type="text" id="concrete-cover" disabled>
-            </div>
-        
-            <div class="form-group">
-                <label for="cross-sectional-area">Cross-Sectional Area of Longitudinal Tensile Reinforcement (mm<sup>2</sup>):</label>
-                <input type="text" id="cross-sectional-area" disabled>
-            </div>
-        
-            <div class="form-group">
-                <label for="yield-strength">Yield Strength (MPa):</label>
-                <input type="text" id="yield-strength" disabled>
-            </div>
-      
-            <div class="form-group">
-                <label for="effective-depth">Effective Depth (mm):</label>
-                <input type="text" id="effective-depth" disabled>
-            </div>
-            </div>
-        
-            <div class="right-column">
-            <div class="
-      
-
-    
-    <section id="section5">
-        <div style="text-align:center;"><h2>Results:</h2></div>
-        <div class="container">
-            <div class="column">
-                <div><label for="number-slider">Span:</label>
-                    <a style="background-color: white">
-                        <input type="range" id="span-slider" min="0" max="30" value="15">
-                        <span id="spanNumber">15</span><span> m</span>
-                    </a></div>
-                <div><label for="number-slider">Width:</label>
-                    <a style="background-color: white">
-                        <input type="range" id="width-slider" min="0" max="5" value="0.3" step="0.1">
-                        <span id="widthNumber">0.3</span><span> m</span>
-                    </a></div>
-                <div style="padding-bottom: 50px;"><label for="number-slider">Thickness:</label>
-                    <a style="background-color: white">
-                        <input type="range" id="thickness-slider" min="0" max="5" value="0.4" step="0.1">
-                        <span id="thicknessNumber">0.4</span><span> m</span>
-                    </a></div>
-
-                <div><label for="number-slider">Concrete Density:</label>
-                    <a style="background-color: white"><span id="thickness">25</span><span> kN/m<sup>3</sup></span></a>
-                </div>
-            </div>
-            <div class="column">
-                <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
-                <div><label>Live Load (Q): </label><a style="background-color: white"><span id="live-load"></span><span> kN/m</span></a></div>
-                <div><label>Load Combination: </label></div>
-                <div style="padding-left: 50px;"><label>Strength: </label><a style="background-color: white"><span id="combo-strength"></span><span> kN/m</span></a></div>
-                <div style="padding-left: 50px;"><label>Serviceability: </label></div>
-                <div style="padding-left: 100px;"><label>Short Term: </label><a style="background-color: white"><span id="combo-short"></span><span> kN/m</span></a></div>
-                <div style="padding-left: 100px; padding-bottom: 50px;"><label>Long Term: </label><a style="background-color: white"><span id="combo-long"></span><span> kN/m</span></a></div>
-                <div><label>Supports: </label></div>
-                <div><label>Bending Moment Diagram: </label></div>
-                <div><label>Sheer Force Diagram: </label></div>
-                <div id="bmd-container"></div>
-            </div>
-        </div>
-    </section>
-    <div style="padding-bottom: 500px;"></div>
-
-
-    <div></div>
-</body>
-
-</html>

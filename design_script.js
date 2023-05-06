@@ -27,12 +27,18 @@ const effectiveDepth = document.getElementById('effective-depth');
 const concreteCover = document.getElementById('concrete-cover');
 const crossSectionalArea = document.getElementById('cross-sectional-area');
 const rebars = document.getElementById('rebars');
+const rebarWarning = document.getElementById('rebar-warning');
+const designLoad = document.getElementById('design-load');
+const cValue = document.getElementById('c-value');
+const phiValue = document.getElementById('phi-value');
+const MuoValue = document.getElementById('Muo-value');
 
 let locationItem = 1;
 let purposeItem = 0;
 let compressiveStrengthSelection = 32;
 let rebarValue = 16;
 let stirrupValue = 10;
+let Mstar = 3000000;
 
 
 window.onbeforeunload = function () {
@@ -52,6 +58,20 @@ function scrollToSection2() {
 function scrollToSection3() {
     sec3.scrollIntoView({ behavior: "smooth" });
     findAll();
+}
+
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.body.style.pointerEvents = 'none';
+}
+  
+function hideLoading() {
+    document.getElementById('loading').style.display = 'none';
+    document.body.style.pointerEvents = 'auto';
+}
+
+function cancelFunc(){
+    hideLoading();
 }
 
 spanSlider.addEventListener("input", function() {
@@ -94,6 +114,11 @@ rebarDiameter.addEventListener('change', (event) => {
 stirrup.addEventListener('change', (event) => {
     stirrupValue = stirrup.value;
     console.log(stirrupValue);
+    findAll();
+});
+
+designLoad.addEventListener('change', (event) => {
+    Mstar = designLoad.value;
     findAll();
 });
 
@@ -156,6 +181,8 @@ function findOutputs(){
     const fsy = yieldStrength.innerHTML;
     const W = widthNumber.innerHTML
 
+    const Es = 200000;
+
     //concrete cover
     if (locationItem == 0 && fc == 25){
         conC = 30;
@@ -173,7 +200,7 @@ function findOutputs(){
     concreteCover.innerHTML = conC;
 
     //depth
-    const eDepth = D - conC - stirrupValue - (rebarValue/2);
+    const eDepth = D - conC - stirrupValue - (rebarValue/2); //d
     effectiveDepth.innerHTML = eDepth.toPrecision(6);
 
     //cross-section area
@@ -181,8 +208,100 @@ function findOutputs(){
     crossSectionalArea.innerHTML = Ast.toPrecision(7);
 
     //rebars
-    const nORebars = Ast/((Math.PI)/4*Math.pow(rebarValue,2));
-    rebars.innerHTML = Math.ceil(nORebars);
+    let nORebars = Math.ceil(Ast/((Math.PI)/4*Math.pow(rebarValue,2)));
+    rebars.innerHTML = nORebars;
+
+    if (rebars.innerHTML < 2){
+        rebarWarning.innerHTML = "*Use a smaller rebar diameter";
+    } else if (rebars.innerHTML > 8){
+        rebarWarning.innerHTML = "*Use a greater rebar diameter";
+    } else {
+        rebarWarning.innerHTML = "";
+    }
+
+    //strength design
+    let phi = 0.85;
+    let Muo = 1;
+    let est = 0;
+    const alpha2 = 0.85 - 0.0015*fc;
+    const gamma = 0.97 - 0.0025*fc;
+    const b = W;
+    const dsc = D - eDepth;
+
+    function findc1(){
+        const Asc = 2*((Math.PI)/4*Math.pow(rebarValue,2));
+        const Tst = nORebars * fsy;
+        // const Csc = Asc*(Es*((c-dsc)/c)*0.003 - alpha2*fc);
+        // const C = alpha2*fc*gamma*c*b;
+        const quadA = alpha2*fc*gamma*b;
+        const quadB = 0.003*Asc*Es-Asc*alpha2*fc-Tst;
+        const quadC = -0.003*Asc*Es*dsc;
+
+        const c = (-quadB + Math.sqrt(Math.pow(quadB,2)-4*quadA*quadC))/(2*quadA);
+        est = ((eDepth-c)/c)*0.003;
+        const Csc = Asc*(Es*((c-dsc)/c)*0.003 - alpha2*fc);
+        const C = alpha2*fc*gamma*c*b;
+
+        const kuo = c/eDepth;
+        Muo = C*(eDepth - 0.5*gamma*c)+Csc*(eDepth-dsc);
+        phi = 1.24-13*kuo/12;
+        if (phi > 0.85) {phi = 0.85;}
+        if (phi < 0.65) {phi = 0.65;}
+
+        cValue.innerHTML = c.toPrecision(5);
+        phiValue.innerHTML = phi.toPrecision(5);
+        MuoValue.innerHTML = (phi*Muo).toPrecision(9);
+    }
+
+    function findc2(){
+        const Asc = 2*((Math.PI)/4*Math.pow(rebarValue,2));
+        const Tst = nORebars * fsy;
+        // const Csc = Asc*(Es*((c-dsc)/c)*0.003 - alpha2*fc);
+        // const C = alpha2*fc*gamma*c*b;
+        const quadA = alpha2*fc*gamma*b;
+        const quadB = 0.003*Asc*Es-Asc*alpha2*fc+0.003*Ast*Es;
+        const quadC = -0.003*Asc*Es*dsc-0.003*Ast*Es*eDepth;
+
+        const c = (-quadB + Math.sqrt(Math.pow(quadB,2)-4*quadA*quadC))/(2*quadA);
+        est = ((eDepth-c)/c)*0.003;
+        const Csc = Asc*(Es*((c-dsc)/c)*0.003 - alpha2*fc);
+        const C = alpha2*fc*gamma*c*b;
+
+        const kuo = c/eDepth;
+        Muo = C*(eDepth - 0.5*gamma*c)+Csc*(eDepth-dsc);
+        phi = 1.24-13*kuo/12;
+        if (phi > 0.85) {phi = 0.85;}
+        if (phi < 0.65) {phi = 0.65;}
+        
+        cValue.innerHTML = c.toPrecision(5);
+        phiValue.innerHTML = phi.toPrecision(5);
+        MuoValue.innerHTML = (phi*Muo).toPrecision(9);
+    }
+
+    function findc(){
+        showLoading();
+        while (phi*Muo < Mstar){
+            nORebars += 1;
+            rebars.innerHTML = nORebars;
+            if (rebars.innerHTML < 2){
+                rebarWarning.innerHTML = "*Use a smaller rebar diameter";
+            } else if (rebars.innerHTML > 8){
+                rebarWarning.innerHTML = "*Use a greater rebar diameter";
+            } else {
+                rebarWarning.innerHTML = "";
+            }
+            findc1();
+        }
+        while (est < 0.0025){
+            findc2();
+            findc();
+        }
+        hideLoading();
+    }
+
+    findc1();
+    findc();
+    
 }
 
 function findAll(){
@@ -235,5 +354,11 @@ column 2:
     Effective Depth (d) (units: mm)
     Concrete Cover (units: m)
     Cross-Sectional Area of Longitudinal Tensile Reinforcement (Ast) (units: mm^2)
+
+
+
+if n.o.rebars <2 or >8 print error (use smaller/greater rebar diam)
+
+
 
 */
