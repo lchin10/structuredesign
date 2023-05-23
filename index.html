@@ -54,10 +54,10 @@
                     </a></div>
                 <label>Cross-Section</label>
                 <div style="padding-left: 50px;"><label>Depth (mm):</label>
-                    <a style="background-color: white"><span id="depthNumber">0.4</span></a>
+                    <input type="number" value="125" step="10" id="depthNumber">
                 </div>
                 <div style="padding-left: 50px; padding-bottom: 50px;"><label>Width (mm):</label>
-                    <a style="background-color: white"><span id="widthNumber">0.3</span></a>
+                    <input type="number" value="187" step="10" id="widthNumber">
                 </div>
 
                 <div><label>Design Moment Load (M*):</label>
@@ -80,6 +80,10 @@
                         <option value="10">10</option>
                         <option value="12">12</option>
                     </select>
+                </div>
+
+                <div><label>Design Shear Force (V*):</label>
+                    <input type="number" value="100000" step="100" id="design-shear">
                 </div>
 
                 <label>Concrete Properties</label>
@@ -125,6 +129,14 @@
                     <a style="background-color: white"><span id="rebars">0.4</span></a>
                 </div>
                 <div style="padding-bottom: 50px; padding-left: 30px; color: red;"><a id="rebar-warning"></a></div>
+                
+                <div><label>Shear Reinforcement (mm):</label>
+                    <a style="background-color: white"><span id="shear-reinforcement">0.4</span></a>
+                </div>
+                <div><label>Max Transverse Spacing (mm):</label>
+                    <a style="background-color: white"><span id="transverse-spacing">0.4</span></a>
+                </div>
+                <div style="padding-bottom: 50px; padding-left: 30px;">Web is <a id="crushing-warning2" style="color: red"></a>safe from crushing<a id="crushing-warning" style="color: red"></a></div>
 
                 <div><label>c:</label>
                     <a style="background-color: white"><span id="c-value">0.4</span></a>
@@ -137,18 +149,7 @@
                 <div><label>&#632;M<sub>uo</sub>:</label>
                     <a style="background-color: white"><span id="Muo-value">0.4</span></a>
                 </div>
-
-                <!-- <div><label>Dead Load (G): </label><a style="background-color: white"><span id="dead-load"></span><span> kN/m</span></a></div>
-                <div><label>Live Load (Q): </label><a style="background-color: white"><span id="live-load"></span><span> kN/m</span></a></div>
-                <div><label>Load Combination: </label></div>
-                <div style="padding-left: 50px;"><label>Strength: </label><a style="background-color: white"><span id="combo-strength"></span><span> kN/m</span></a></div>
-                <div style="padding-left: 50px;"><label>Serviceability: </label></div>
-                <div style="padding-left: 100px;"><label>Short Term: </label><a style="background-color: white"><span id="combo-short"></span><span> kN/m</span></a></div>
-                <div style="padding-left: 100px; padding-bottom: 50px;"><label>Long Term: </label><a style="background-color: white"><span id="combo-long"></span><span> kN/m</span></a></div>
-                <div><label>Supports: </label></div>
-                <div><label>Bending Moment Diagram: </label></div>
-                <div><label>Sheer Force Diagram: </label></div>
-                <div id="bmd-container"></div> -->
+                
             </div>
         </div>  
     </section>

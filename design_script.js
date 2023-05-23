@@ -6,6 +6,7 @@
 const sec1 = document.getElementById('section1');
 const sec2 = document.getElementById('section2');
 const sec3 = document.getElementById('section3');
+const cancelBtn = document.getElementById("cancel-btn");
 const spanSlider = document.getElementById("span-slider");
 const spanNumber = document.getElementById("spanNumber");
 const depthNumber = document.getElementById("depthNumber");
@@ -32,6 +33,11 @@ const designLoad = document.getElementById('design-load');
 const cValue = document.getElementById('c-value');
 const phiValue = document.getElementById('phi-value');
 const MuoValue = document.getElementById('Muo-value');
+const designShear = document.getElementById('design-shear');
+const shearReinforcement = document.getElementById('shear-reinforcement');
+const transverseSpacing = document.getElementById('transverse-spacing');
+const crushingWarning = document.getElementById('crushing-warning');
+const crushingWarning2 = document.getElementById('crushing-warning2');
 
 let locationItem = 1;
 let purposeItem = 0;
@@ -39,6 +45,7 @@ let compressiveStrengthSelection = 32;
 let rebarValue = 16;
 let stirrupValue = 10;
 let Mstar = 3000000;
+let Vstar = 100000;
 
 
 window.onbeforeunload = function () {
@@ -71,13 +78,14 @@ function hideLoading() {
 }
 
 function cancelFunc(){
+    location.reload();
     hideLoading();
 }
 
 spanSlider.addEventListener("input", function() {
     spanNumber.innerHTML = spanSlider.value;
-    // findLoad(purposeItem,spanNumber.innerHTML,widthNumber.innerHTML,thicknessNumber.innerHTML);
     findAll();
+    findCrossSection();
 });
 
 compressiveStrength.addEventListener('change', () => {
@@ -107,20 +115,47 @@ purposeQues.addEventListener('click', function(event) {
 
 rebarDiameter.addEventListener('change', (event) => {
     rebarValue = rebarDiameter.value;
-    console.log(rebarValue);
     findAll();
 });
 
 stirrup.addEventListener('change', (event) => {
     stirrupValue = stirrup.value;
-    console.log(stirrupValue);
     findAll();
 });
 
-designLoad.addEventListener('change', (event) => {
-    Mstar = designLoad.value;
-    findAll();
+designLoad.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        Mstar = designLoad.value;
+        findAll();
+    }
 });
+
+designShear.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        Vstar = designShear.value;
+        findAll();
+    }
+});
+
+depthNumber.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        findAll();
+    }
+});
+
+widthNumber.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        findAll();
+    }
+});
+
+// depthNumber.addEventListener('input', (event) => {
+//     findAll();
+// });
+
+// widthNumber.addEventListener('input', (event) => {
+//     findAll();
+// });
 
 function findLoad(purpose, span, width, thickness){
     const conreteDensity = 25;
@@ -148,8 +183,8 @@ function findLoad(purpose, span, width, thickness){
 }
 
 function findCrossSection(){
-    widthNumber.innerHTML = (spanNumber.innerHTML/16).toPrecision(5);
-    depthNumber.innerHTML = (widthNumber.innerHTML/1.5).toPrecision(5);
+    widthNumber.value = (spanNumber.innerHTML/16).toPrecision(5);
+    depthNumber.value = (widthNumber.value/1.5).toPrecision(5);
 }
 
 function setElasticModulus(){
@@ -175,11 +210,11 @@ function setElasticModulus(){
 function findOutputs(){
     //variables
     const fc = compressiveStrengthSelection;
-    const D = depthNumber.innerHTML;
+    const D = depthNumber.value;
     let conC = concreteCover.innerHTML;
     //stirrupValue, rebarValue
     const fsy = yieldStrength.innerHTML;
-    const W = widthNumber.innerHTML
+    const W = parseInt(widthNumber.value);
 
     const Es = 200000;
 
@@ -301,11 +336,63 @@ function findOutputs(){
 
     findc1();
     findc();
+
+    //shear force design
+    function cot(x){ return 1 / Math.tan(x*Math.PI/180);} //x to degrees
+    function crushSafety(){
+        phi = 0.7;
+        const dv = Math.max(0.72*D,0.9*eDepth);
+        const epsilonx = (Math.abs(Mstar/dv)+Math.abs(Vstar))/(2*Es*Ast);
+        console.log('ex:',epsilonx,Mstar,dv,Vstar,Es,Ast);
+        const thetav = 29+7000*epsilonx;
+        const Vumax = 0.55*0.9*fc*b*dv*((cot(thetav)+cot(90))/(1+Math.pow(cot(thetav),2)));
+
+        if (phi*Vumax >= Vstar){
+            crushingWarning.innerHTML = '';
+            crushingWarning2.innerHTML = '';
+        } else{
+            crushingWarning2.innerHTML = 'not ';
+            crushingWarning.innerHTML = ': revise cross-section dimensions';
+        }
+        console.log('phi*Vu.max:',phi*Vumax);
+        console.log('V*:',Vstar);
+
+        //shear resistance
+        const kv = 0.4/(1+1500*epsilonx);
+        const Vuc = kv*b*dv*Math.sqrt(fc);
+        console.log('vuc:',kv,b,dv,fc);
+        let ks = 0;
+        phi = 0.75;
+
+        if (D <= 300){
+            ks = 1;
+        } else if (300 < D && D < 650){
+            ks = (1000/D)/700;
+        } else{
+            ks = 0.5;
+        }
+        
+        if (Vstar <= ks*phi*Vuc){
+            shearReinforcement.innerHTML = 'N/A';
+        } else {
+            const Asvmin = 0.08*Math.sqrt(fc)*b/fsy; //min shear reinforcement Asv.min/s
+            const Vus = (Vstar/phi)-Vuc;
+            const Asv = Vus/(fsy*dv*cot(thetav)); //Asv/s
+            if (Asv >= Asvmin){
+                shearReinforcement.innerHTML = Asv.toPrecision(4);
+            } else{
+                shearReinforcement.innerHTML = Asvmin.toPrecision(4);
+            }
+            console.log('Asv:',Asv);
+        }
+        transverseSpacing.innerHTML = Math.min(300,(0.5*D).toPrecision(3));
+    }
+
+    crushSafety()
     
 }
 
 function findAll(){
-    findCrossSection();
     setElasticModulus();
     findOutputs();
 }
@@ -359,6 +446,12 @@ column 2:
 
 if n.o.rebars <2 or >8 print error (use smaller/greater rebar diam)
 
+Requirement: V* <= ks*phi*Vuc
 
+Vu = Vuc + Vus
+
+ks = 1 (D <= 300mm)
+ks = 1000-D (300 < D < 650)
+ks = 0.5 (D >= 650)
 
 */
