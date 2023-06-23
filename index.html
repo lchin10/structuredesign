@@ -52,15 +52,31 @@
             <div class="column">
                 <div><label for="number-slider">Span (mm):</label>
                     <a style="background-color: white">
-                        <input type="range" id="span-slider" min="1500" max="5000" value="3000">
+                        <input type="range" id="span-slider" min="2600" max="6000" value="3000">
                         <span id="spanNumber">3000</span>
                     </a></div>
-                <label>Cross-Section</label>
-                <div style="padding-left: 50px;"><label>Depth (mm):</label>
-                    <input type="number" value="125" step="10" id="depthNumber">
-                </div>
-                <div style="padding-left: 50px; padding-bottom: 50px;"><label>Width (mm):</label>
-                    <input type="number" value="187" step="10" id="widthNumber">
+                
+                <div class="container">
+                    <div style="flex-basis: 5%;">
+                        <div style="padding-top: 130px; font-size: 20px;"><label>Depth (mm):</label>
+                            <input type="number" value="125" step="10" id="depthNumber">
+                        </div>
+                    </div>
+                    <div class="column3">
+                        <div style="padding-left: 50px; font-size: 20px;"><label>Width (mm):</label>
+                            <input type="number" value="187" step="10" id="widthNumber">
+                        </div>
+                        <canvas id="drawingCanvas" width="500" height="500"></canvas>
+                    </div>
+                    <div>
+                        <div style="padding-top: 110px; font-size: 20px;"><label>Effective Depth (mm):</label>
+                            <a style="background-color: white"><span id="effective-depth"></span></a>
+                        </div>
+        
+                        <div style="padding-top: 50px; font-size: 20px;"><label>Concrete Cover (m):</label>
+                            <a style="background-color: white"><span id="concrete-cover"></span></a>
+                        </div>
+                    </div>
                 </div>
 
                 <div><label>Design Moment Load (M*):</label>
@@ -116,14 +132,6 @@
 
             </div>
             <div class="column">
-                <div style="padding-bottom: 50px;"><label>Effective Depth (mm):</label>
-                    <a style="background-color: white"><span id="effective-depth">0.4</span></a>
-                </div>
-
-                <div style="padding-bottom: 50px;"><label>Concrete Cover (m):</label>
-                    <a style="background-color: white"><span id="concrete-cover">0.4</span></a>
-                </div>
-
                 <div style="padding-bottom: 50px;"><label>Cross-Sectional Area of Longitudinal Tensile Reinforcement (mm<sup>2</sup>):</label>
                     <a style="background-color: white"><span id="cross-sectional-area">0.4</span></a>
                 </div>
@@ -152,9 +160,6 @@
                 <div><label>&#632;M<sub>uo</sub>:</label>
                     <a style="background-color: white"><span id="Muo-value">0.4</span></a>
                 </div>
-                
-                
-                <canvas id="drawingCanvas" width="400" height="400"></canvas>
 
             </div>
         </div>  

@@ -188,8 +188,8 @@ function findLoad(purpose, span, width, thickness){
 }
 
 function findCrossSection(){
-    widthNumber.value = (spanNumber.innerHTML/16).toPrecision(5);
-    depthNumber.value = (widthNumber.value/1.5).toPrecision(5);
+    widthNumber.value = (parseInt(spanNumber.innerHTML)/16).toPrecision(5);
+    depthNumber.value = (parseInt(widthNumber.value)/1.5).toPrecision(5);
 }
 
 function setElasticModulus(){
@@ -215,7 +215,7 @@ function setElasticModulus(){
 function findOutputs(){
     //variables
     const fc = compressiveStrengthSelection;
-    const D = depthNumber.value;
+    const D = parseInt(depthNumber.value);
     let conC = concreteCover.innerHTML;
     //stirrupValue, rebarValue
     const fsy = yieldStrength.innerHTML;
@@ -396,14 +396,65 @@ function findOutputs(){
     crushSafety()
 
     
-    // Get a reference to the canvas element
+    // draw cross-section
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
+    canvas.width = b+80;
+    canvas.height = D+80;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = "2";
+    console.log(b,D,canvas.width, canvas.height);
 
     ctx.beginPath();
-    ctx.rect(0, 0, W, D);
-    ctx.rect(conC,conC,W-2*conC,D-2*conC);
+    ctx.rect(40, 40, b, D);
+    ctx.roundRect(conC+40,conC+40,b-2*conC,D-2*conC,[6]);
+    ctx.roundRect(conC+stirrupValue+40,conC+stirrupValue+40,b-2*(conC+stirrupValue),D-2*(conC+stirrupValue),[6]);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(dsc+40, dsc+40, rebarValue/2, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(b-dsc+40, dsc+40, rebarValue/2, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    for (let i = 0; i < nORebars; i++) {
+        ctx.beginPath();
+        const tempCenter = dsc+(b-2*dsc)/(nORebars-1)*i;
+        ctx.arc(tempCenter+40, eDepth+40, rebarValue/2, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(b+50,40);
+    ctx.lineTo(b+70,40);
+    ctx.moveTo(b+60,40);
+    ctx.lineTo(b+60,eDepth+40);
+    ctx.moveTo(b+40-dsc,eDepth+40);
+    ctx.lineTo(b+70,eDepth+40);
+
+    ctx.moveTo(b+40-dsc,D+40-conC);
+    ctx.lineTo(b+70,D+40-conC);
+    ctx.moveTo(b+60,D+40-conC);
+    ctx.lineTo(b+60,D+40);
+    ctx.moveTo(b+50,D+40);
+    ctx.lineTo(b+70,D+40);
+
+    ctx.moveTo(10,40);
+    ctx.lineTo(30,40);
+    ctx.moveTo(20,40);
+    ctx.lineTo(20,D+40);
+    ctx.moveTo(10,D+40);
+    ctx.lineTo(30,D+40);
+    
+    ctx.moveTo(40,10);
+    ctx.lineTo(40,30);
+    ctx.moveTo(40,20);
+    ctx.lineTo(b+40,20);
+    ctx.moveTo(b+40,10);
+    ctx.lineTo(b+40,30);
+
     ctx.stroke();
     
 }

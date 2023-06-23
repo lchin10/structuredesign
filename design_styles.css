@@ -74,6 +74,11 @@ ul {
   padding: 20px; /* adds some padding to each column */
 }
 
+.column3 {
+  flex-basis: 33%;
+  padding: 20px;
+}
+
 .loading {
   position: fixed;
   top: 0;
