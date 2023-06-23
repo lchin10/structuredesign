@@ -52,19 +52,24 @@ window.onbeforeunload = function () {
     window.scrollTo(0, 0);
 }
 
-window.onload= function(){ findAll(); }
+window.onload= function() {
+    findAll();
+}
 
 function scrollToSection1() {
     sec1.scrollIntoView({ behavior: "smooth" });
+    document.getElementById('trans-box1').style.visibility = "hidden";
 }
 
 function scrollToSection2() {
     sec2.scrollIntoView({ behavior: "smooth" });
+    document.getElementById('trans-box2').style.visibility = "hidden";
 }
 
 function scrollToSection3() {
     sec3.scrollIntoView({ behavior: "smooth" });
     findAll();
+    document.getElementById('trans-box3').style.visibility = "hidden";
 }
 
 function showLoading() {
@@ -389,6 +394,17 @@ function findOutputs(){
     }
 
     crushSafety()
+
+    
+    // Get a reference to the canvas element
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.rect(0, 0, W, D);
+    ctx.rect(conC,conC,W-2*conC,D-2*conC);
+    ctx.stroke();
     
 }
 

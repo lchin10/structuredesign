@@ -17,13 +17,14 @@
     <div id="loading" class="loading">
         <div class="loading-icon"></div>
         <button id="cancel-btn" class="cancel-btn" onclick="cancelFunc()">Cancel</button>
-      </div>
+    </div>
     <div style="text-align:center">
         <div class="main_button">
             <img class="truss_main" src="truss.png">
             <div style="padding-top: 20px;"><button onclick="scrollToSection1()" class="expanding-button">START</button></div>
         </div>
         <div style="padding-bottom: 180px;"></div>
+        <div class="trans-box" id="trans-box1"></div>
         <section id="section1">
             <h2 class="quiz-question">Location of the beam:</h2>
             <ul data-quiz-question="1" id="locationques">
@@ -31,6 +32,7 @@
                 <li onclick="scrollToSection2()" class="quiz-answer" data-quiz-answer="b">Coastal</li>
             </ul>
         </section>
+        <div class="trans-box" id="trans-box2"></div>
         <div style="padding-bottom: 430px;"></div>
         <section id="section2">
             <h2 class="quiz-question">Purpose of the beam:</h2>
@@ -40,6 +42,7 @@
                 <li onclick="scrollToSection3()" class="quiz-answer" data-quiz-answer="c">Shopping Area</li>
             </ul>
         </section>
+        <div class="trans-box" id="trans-box3"></div>
     </div>
     <div style="padding-bottom: 500px;"></div>
 
@@ -150,6 +153,9 @@
                     <a style="background-color: white"><span id="Muo-value">0.4</span></a>
                 </div>
                 
+                
+                <canvas id="drawingCanvas" width="400" height="400"></canvas>
+
             </div>
         </div>  
     </section>
